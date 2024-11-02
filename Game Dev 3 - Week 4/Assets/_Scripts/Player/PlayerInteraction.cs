@@ -1,4 +1,5 @@
 using GameDevWithMarco.EnvironmentalProps;
+using GameDevWithMarco.interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,9 +10,9 @@ namespace GameDevWithMarco.Player
     public class PlayerInteraction : MonoBehaviour
     {
         //To store what we want to interact with
-        [SerializeField]GameObject thingIAmCollidingWith;
+        [SerializeField] GameObject thingIAmCollidingWith;
 
-        
+
 
         private void OnTriggerEnter(Collider other)
         {
@@ -34,22 +35,11 @@ namespace GameDevWithMarco.Player
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Torch torch = thingIAmCollidingWith.GetComponent<Torch>();
-                if (torch != null)
+                if (thingIAmCollidingWith == null) return;
+                IInteractable interactableObject = thingIAmCollidingWith.GetComponent<IInteractable>();
+                if (interactableObject != null)
                 {
-                    torch.TurnTorchOnOff();
-                }
-
-                Chest chest = thingIAmCollidingWith.GetComponent<Chest>();
-                if (chest != null)
-                {
-                    chest.OpenTheChest();
-                }
-
-                Elevator elevator = thingIAmCollidingWith.GetComponent<Elevator>();
-                if (elevator != null)
-                {
-                    elevator.StartElevator();
+                    interactableObject.Interact();
                 }
             }
         }

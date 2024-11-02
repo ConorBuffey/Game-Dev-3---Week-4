@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using GameDevWithMarco.interfaces;
 
 namespace GameDevWithMarco.EnvironmentalProps
 {
-    public class Elevator : MonoBehaviour
+    public class Elevator : MonoBehaviour, IInteractable
     {
         [SerializeField] Transform endLocation;
-        [SerializeField] float  moveDuration;
+        [SerializeField] float moveDuration;
         Rigidbody elevatorRb;
 
         private void Start()
@@ -16,10 +17,15 @@ namespace GameDevWithMarco.EnvironmentalProps
             elevatorRb = GetComponent<Rigidbody>();
         }
 
-        public void StartElevator()
+        private void StartElevator()
         {
             elevatorRb.DOMove(endLocation.position, moveDuration);
-            
+
+        }
+
+        public void Interact()
+        {
+            StartElevator();
         }
     }
 }
